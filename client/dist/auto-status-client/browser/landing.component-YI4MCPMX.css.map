@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/landing/landing.component.scss"],
+  "sourcesContent": [".landing-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 100vh;\n}\n\n.landing-card {\n  max-width: 450px;\n  width: 100%;\n  text-align: center;\n}\n\n.landing-form {\n  margin-bottom: var(--spacing-lg);\n}\n\n.shop-id-input {\n  text-transform: lowercase;\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  font-size: var(--font-size-lg);\n  text-align: center;\n  letter-spacing: 0.5px;\n}\n\n.helper-text {\n  font-size: var(--font-size-xs);\n  color: var(--color-text-muted);\n  margin-top: var(--spacing-xs);\n  text-align: left;\n  line-height: 1.4;\n}\n\n.landing-actions {\n  margin-top: var(--spacing-lg);\n}\n\n.message.error {\n  background: #fee2e2;\n  color: #991b1b;\n  border: 1px solid #ef4444;\n  margin-top: var(--spacing-md);\n}\n\n"],
+  "mappings": "AAAA,CAAA,kBACE,QAAA,KACA,YAAA,OACA,gBAAA,OACA,WAAA,MAGF,CAAA,aACE,UAAA,MACA,MAAA,KACA,WAAA,OAGF,CAAA,aACE,cAAA,IAAA,cAGF,CAAA,cACE,eAAA,UACA,YAAA,MAAA,CAAA,KAAA,CAAA,WAAA,CAAA,UACA,UAAA,IAAA,gBACA,WAAA,OACA,eAAA,KAGF,CAAA,YACE,UAAA,IAAA,gBACA,MAAA,IAAA,oBACA,WAAA,IAAA,cACA,WAAA,KACA,YAAA,IAGF,CAAA,gBACE,WAAA,IAAA,cAGF,CAAA,OAAA,CAAA,MACE,WAAA,QACA,MAAA,QACA,OAAA,IAAA,MAAA,QACA,WAAA,IAAA",
+  "names": []
+}

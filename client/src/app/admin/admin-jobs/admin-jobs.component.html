@@ -1,0 +1,154 @@
+<div class="card">
+  <h2>Jobs</h2>
+
+  <!-- Create Job Section -->
+  <div class="create-job-section">
+    <h3>Create Job</h3>
+    <div class="row">
+      <div>
+        <label for="vehicle-label">Vehicle label (e.g., 2017 Honda Civic) <span class="required">*</span></label>
+        <input 
+          id="vehicle-label"
+          type="text"
+          [(ngModel)]="vehicleLabel" 
+          placeholder="2017 Honda Civic"
+          [class.error]="vehicleLabelError()"
+          (blur)="validateForm()"
+          [attr.aria-invalid]="vehicleLabelError() ? 'true' : 'false'"
+          [attr.aria-describedby]="vehicleLabelError() ? 'vehicle-label-error' : null"
+        />
+        @if (vehicleLabelError()) {
+          <div id="vehicle-label-error" class="error-text" role="alert">{{ vehicleLabelError() }}</div>
+        }
+      </div>
+      <div>
+        <label for="customer-contact">Customer contact (phone or email) <span class="required">*</span></label>
+        <input 
+          id="customer-contact"
+          type="text"
+          [(ngModel)]="customerContact" 
+          placeholder="+1 555-555-5555"
+          [class.error]="customerContactError()"
+          (blur)="validateForm()"
+          [attr.aria-invalid]="customerContactError() ? 'true' : 'false'"
+          [attr.aria-describedby]="customerContactError() ? 'customer-contact-error' : null"
+        />
+        @if (customerContactError()) {
+          <div id="customer-contact-error" class="error-text" role="alert">{{ customerContactError() }}</div>
+        }
+      </div>
+    </div>
+    <div class="row mt-md">
+      <button class="btn btn-primary" (click)="create()" aria-label="Create new job">Create</button>
+    </div>
+    
+    @if (message()) {
+      <div class="message" [class.success]="createdJobToken()">
+        {{ message() }}
+      </div>
+    }
+
+    @if (createdJobToken()) {
+      <div class="customer-link-section">
+        <div class="text-xs mb-sm">Customer URL:</div>
+        <div class="link-container">
+          <code class="customer-url">{{ getCustomerUrl(createdJobToken()!) }}</code>
+          <button class="btn btn-secondary btn-sm" (click)="copyCustomerLink(createdJobToken()!)" aria-label="Copy customer link to clipboard">
+            Copy link
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <hr />
+
+  <!-- Jobs List Section -->
+  <div class="jobs-list-section">
+    <div class="jobs-header">
+      <h3>Recent Jobs</h3>
+      @if (filteredJobs().length > 0 || searchQuery) {
+        <input 
+          type="search"
+          id="job-search"
+          [(ngModel)]="searchQuery" 
+          placeholder="Search jobs..." 
+          class="search-input"
+          aria-label="Search jobs by vehicle, contact, state, or flag"
+        />
+      }
+    </div>
+
+    @if (loading()) {
+      <div class="text-sm">Loading jobs...</div>
+    }
+    @if (error()) {
+      <div class="text-sm error-message">
+        {{ error() }}
+        <button class="btn btn-secondary mt-sm" (click)="reload()" aria-label="Retry loading jobs">Retry</button>
+      </div>
+    }
+    @if (!loading() && !error() && filteredJobs().length === 0) {
+      <div class="text-sm">
+        @if (searchQuery) {
+          No jobs found matching "{{ searchQuery }}".
+        } @else {
+          No jobs yet. Create your first job above.
+        }
+      </div>
+    }
+    
+    @if (filteredJobs().length > 0) {
+      <div class="jobs-list">
+        @for (j of filteredJobs(); track j.id) {
+          <div class="job-card">
+            <div class="job-card-mobile">
+              <div class="job-header">
+                <div class="strong">{{ j.vehicleLabel }}</div>
+                <a [routerLink]="['/', shopKey, 'admin', 'jobs', j.id]" class="btn btn-secondary btn-sm">Open</a>
+              </div>
+              <div class="job-details">
+                <div class="text-xs mb-sm">{{ j.customerContact }}</div>
+                <div class="badges">
+                  @if (j.active) {
+                    <span class="badge badge-active">Active</span>
+                  } @else {
+                    <span class="badge badge-inactive">Closed</span>
+                  }
+                  <span class="badge">{{ j.stateKey }}</span>
+                  @if (j.flagKey && j.flagKey !== 'NONE') {
+                    <span class="badge">{{ j.flagKey }}</span>
+                  }
+                </div>
+                <div class="text-xs mt-sm">Updated: {{ formatDate(j.updatedAt) }}</div>
+              </div>
+            </div>
+            
+            <div class="job-card-desktop">
+              <div class="job-cell vehicle">{{ j.vehicleLabel }}</div>
+              <div class="job-cell contact">{{ j.customerContact }}</div>
+              <div class="job-cell status">
+                @if (j.active) {
+                  <span class="badge badge-active">Active</span>
+                } @else {
+                  <span class="badge badge-inactive">Closed</span>
+                }
+              </div>
+              <div class="job-cell badges">
+                <span class="badge">{{ j.stateKey }}</span>
+                @if (j.flagKey && j.flagKey !== 'NONE') {
+                  <span class="badge">{{ j.flagKey }}</span>
+                }
+              </div>
+              <div class="job-cell updated">{{ formatDate(j.updatedAt) }}</div>
+              <div class="job-cell actions">
+                <a [routerLink]="['/', shopKey, 'admin', 'jobs', j.id]" class="btn btn-secondary btn-sm" [attr.aria-label]="'Open job details for ' + j.vehicleLabel">Open</a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+

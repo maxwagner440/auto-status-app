@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/customer/customer-status/customer-status.component.scss"],
+  "sourcesContent": ["// Component-specific styles if needed\n\n.hero-status-label,\n.strong,\n.shop-info-card h3,\n.shop-info-card div,\n.action-bar-hours {\n  word-wrap: break-word;\n  word-break: break-word;\n  overflow-wrap: break-word;\n  max-width: 100%;\n}\n\n.action-bar-hours {\n  white-space: normal;\n}\n\n.verification-card {\n  max-width: 400px;\n  margin: 0 auto;\n  margin-top: var(--spacing-3xl);\n  text-align: center;\n}\n\n.verification-form {\n  margin-bottom: var(--spacing-lg);\n}\n\n.verification-input {\n  text-align: center;\n  font-size: var(--font-size-xl);\n  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;\n  letter-spacing: 0.5em;\n  padding-left: 0.5em;\n}\n\n.verification-actions {\n  margin-top: var(--spacing-lg);\n}\n\n.error-text {\n  color: #dc2626;\n  font-size: var(--font-size-xs);\n  margin-top: var(--spacing-xs);\n}\n\n"],
+  "mappings": "AAEA,CAAA,kBAAA,CAAA,OAAA,CAAA,eAAA,GAAA,CAAA,eAAA,IAAA,CAAA,iBAKE,UAAA,WACA,WAAA,WACA,cAAA,WACA,UAAA,KAGF,CAXA,iBAYE,YAAA,OAGF,CAAA,kBACE,UAAA,MAhBF,OAiBE,EAAA,KACA,WAAA,IAAA,eACA,WAAA,OAGF,CAAA,kBACE,cAAA,IAAA,cAGF,CAAA,mBACE,WAAA,OACA,UAAA,IAAA,gBACA,YAAA,MAAA,CAAA,KAAA,CAAA,WAAA,CAAA,UACA,eAAA,KACA,aAAA,KAGF,CAAA,qBACE,WAAA,IAAA,cAGF,CAAA,WACE,MAAA,QACA,UAAA,IAAA,gBACA,WAAA,IAAA",
+  "names": []
+}

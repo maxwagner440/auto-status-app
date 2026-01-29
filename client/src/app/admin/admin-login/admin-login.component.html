@@ -1,0 +1,46 @@
+<div class="page-container">
+  <div class="card login-card">
+    <h2>Admin Login</h2>
+    <p class="text-sm mb-lg">Enter your password to access the admin panel for <strong>{{ shopKey }}</strong>.</p>
+
+    <div class="login-form">
+      <div>
+        <label for="password">Password</label>
+        <input 
+          id="password"
+          type="password"
+          [(ngModel)]="password" 
+          placeholder="Enter your password"
+          (keyup.enter)="login()"
+          [disabled]="loading()"
+          autofocus
+        />
+      </div>
+    </div>
+
+    <div class="login-actions">
+      <button 
+        class="btn btn-primary" 
+        (click)="login()"
+        [disabled]="loading() || !password.trim()"
+        aria-label="Login to admin panel"
+      >
+        @if (loading()) {
+          Logging in...
+        } @else {
+          Login
+        }
+      </button>
+      <a [routerLink]="['/']" [queryParams]="{ change: '1' }" class="btn btn-secondary change-shop-link">
+        Change shop ID
+      </a>
+    </div>
+
+    @if (message()) {
+      <div class="message" [class.error]="true">
+        {{ message() }}
+      </div>
+    }
+  </div>
+</div>
+

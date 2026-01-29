@@ -1,0 +1,46 @@
+// Component-specific styles if needed
+
+.hero-status-label,
+.strong,
+.shop-info-card h3,
+.shop-info-card div,
+.action-bar-hours {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.action-bar-hours {
+  white-space: normal;
+}
+
+.verification-card {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: var(--spacing-3xl);
+  text-align: center;
+}
+
+.verification-form {
+  margin-bottom: var(--spacing-lg);
+}
+
+.verification-input {
+  text-align: center;
+  font-size: var(--font-size-xl);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  letter-spacing: 0.5em;
+  padding-left: 0.5em;
+}
+
+.verification-actions {
+  margin-top: var(--spacing-lg);
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-xs);
+}
+

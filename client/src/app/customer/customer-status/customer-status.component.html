@@ -1,0 +1,128 @@
+<div class="page-with-sticky-bar">
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="card loading-state">
+      <div>Loading status...</div>
+    </div>
+  }
+
+  <!-- Verification Required -->
+  @if (verificationRequired() && !loading()) {
+    <div class="card verification-card">
+      <h2>Verification Required</h2>
+      <p class="text-sm mb-lg">Please enter the last 4 digits of your phone number to view your job status.</p>
+      
+      <div class="verification-form">
+        <div>
+          <label for="verification-code">Last 4 Digits</label>
+          <input 
+            id="verification-code"
+            type="text"
+            [(ngModel)]="verificationCode" 
+            placeholder="1234"
+            maxlength="4"
+            (keyup.enter)="submitVerification()"
+            class="verification-input"
+          />
+          @if (verificationError()) {
+            <div class="error-text">{{ verificationError() }}</div>
+          }
+        </div>
+      </div>
+
+      <div class="verification-actions">
+        <button 
+          class="btn btn-primary" 
+          (click)="submitVerification()"
+          [disabled]="!verificationCode.trim() || verificationCode.trim().length !== 4"
+          aria-label="Verify and view status"
+        >
+          Verify
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Error/Not Found State -->
+  @if (error() && !loading() && !verificationRequired()) {
+    <div class="card not-found-state">
+      <h2>Status Not Found</h2>
+      <p class="text-sm">This link may be invalid or expired.</p>
+      <p class="text-xs mt-md">Token: {{ token || 'none' }}</p>
+      <p class="text-xs mt-md">Please contact the shop directly if you need assistance.</p>
+    </div>
+  }
+
+  <!-- Main Content -->
+  @if (data() && !loading() && !error()) {
+    <!-- Hero Status Section -->
+    <div class="card hero-status">
+      <div class="hero-status-label">{{ data()?.job?.stateLabel || 'Status' }}</div>
+      <div class="hero-status-badge">{{ data()?.job?.stateLabel || 'Unknown' }}</div>
+      <div class="text-xs mt-md">Last updated: {{ formatDate(data()?.job?.updatedAt) }}</div>
+    </div>
+
+    <!-- What This Means Section -->
+    <div class="card status-section">
+      <h3 class="mt-0">What this means</h3>
+      <div class="status-what-means">
+        <p class="text-sm mb-0">{{ data()?.job?.stateCustomerBlurb || 'No status information available.' }}</p>
+      </div>
+    </div>
+
+    <!-- Flag/Action Section -->
+    @if (data()?.job?.flagKey && data()?.job?.flagKey !== 'NONE') {
+      <div class="card status-section">
+        <h3 class="mt-0">Action / Note</h3>
+        <div class="badge badge-primary mb-md">{{ data()?.job?.flagLabel }}</div>
+        <div class="status-what-means">
+          <p class="text-sm mb-0">{{ data()?.job?.flagCustomerBlurb || '' }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Vehicle Info -->
+    <div class="card">
+      <div class="text-xs mb-sm">Vehicle</div>
+      <div class="strong mb-md">{{ data()?.job?.vehicleLabel || 'Unknown' }}</div>
+      @if (data()?.job && !data()?.job?.active) {
+        <div class="text-xs text-muted mt-md">
+          This job is marked inactive by the shop.
+        </div>
+      }
+    </div>
+
+    <!-- Shop Info -->
+    <div class="card shop-info-card">
+      <h3 class="mt-0 mb-md">{{ data()?.shop?.name || 'Auto Shop' }}</h3>
+      <div class="text-xs mb-sm">
+        <strong>Phone:</strong> <a [href]="'tel:' + (data()?.shop?.phone || '')" [attr.aria-label]="'Call ' + (data()?.shop?.phone || 'shop')">{{ data()?.shop?.phone || '-' }}</a>
+      </div>
+      @if (data()?.shop?.hours) {
+        <div class="text-xs mb-sm">
+          <strong>Hours:</strong> {{ data()?.shop?.hours }}
+        </div>
+      }
+      @if (data()?.shop?.primaryContactName) {
+        <div class="text-xs">
+          <strong>Ask for:</strong> {{ data()?.shop?.primaryContactName }}
+        </div>
+      }
+    </div>
+
+    <!-- Shop Info - Mobile (in sticky bar) -->
+    @if (data()?.shop?.phone) {
+      <div class="sticky-action-bar">
+        <a [href]="'tel:' + data()?.shop?.phone" class="btn btn-primary action-bar-call" [attr.aria-label]="'Call ' + (data()?.shop?.name || 'shop')">
+          Call {{ data()?.shop?.name || 'Shop' }}
+        </a>
+        @if (data()?.shop?.hours) {
+          <div class="action-bar-hours">
+            {{ data()?.shop?.hours }}
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
+

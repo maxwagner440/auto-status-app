@@ -1,0 +1,36 @@
+<div class="page-container">
+  @if (showNav()) {
+    <div class="nav">
+      <a [routerLink]="['/', shopKey(), 'admin']" routerLinkActive="active">Admin</a>
+      <a [routerLink]="['/', shopKey(), 'admin', 'jobs']" routerLinkActive="active">Jobs</a>
+      @if (shopKey()) {
+        <span class="text-xs shop-key-display">{{ shopKey() }}</span>
+      }
+      <a [routerLink]="['/', shopKey(), 'login']" (click)="logout()" class="text-xs">Logout</a>
+      <span class="text-xs">Auto Status MVP</span>
+    </div>
+  }
+  @if (showManageNav()) {
+    <div class="nav">
+      <a routerLink="/manage" routerLinkActive="active">Shops</a>
+      <button type="button" class="nav-logout" (click)="manageLogout()">Logout</button>
+      <span class="text-xs">Shop Management</span>
+    </div>
+  }
+  <router-outlet />
+
+  <button
+    type="button"
+    class="theme-toggle"
+    (click)="theme.toggle()"
+    [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+    [attr.title]="theme.isDark() ? 'Light mode' : 'Dark mode'"
+  >
+    @if (theme.isDark()) {
+      <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
+    } @else {
+      <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+    }
+  </button>
+</div>
+

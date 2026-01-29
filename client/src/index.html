@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <title>Auto Status</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var v = localStorage.getItem('theme');
+      var t = (v === 'light' || v === 'dark') ? v : 'dark';
+      var el = document.documentElement;
+      el.setAttribute('data-theme', t);
+      el.style.colorScheme = t;
+    })();
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

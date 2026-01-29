@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/manage/manage-shop-edit/manage-shop-edit.component.scss"],
+  "sourcesContent": [".error-message {\n  color: var(--color-text-muted);\n}\n\n.message {\n  padding: var(--spacing-md);\n  border-radius: var(--radius-md);\n  font-size: var(--font-size-sm);\n  background: var(--color-background-subtle);\n  color: var(--color-text);\n}\n\n.message.success {\n  background: #d1fae5;\n  color: #065f46;\n}\n\n.checkbox-row {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-sm);\n}\n\n.checkbox-row label {\n  margin-bottom: 0;\n  font-weight: normal;\n}\n\n.badge-inactive {\n  background: #fee2e2;\n  color: #991b1b;\n  border-color: #ef4444;\n}\n"],
+  "mappings": "AAAA,CAAA,cACE,MAAA,IAAA,oBAGF,CAAA,QACE,QAAA,IAAA,cACA,cAAA,IAAA,aACA,UAAA,IAAA,gBACA,WAAA,IAAA,2BACA,MAAA,IAAA,cAGF,CARA,OAQA,CAAA,QACE,WAAA,QACA,MAAA,QAGF,CAAA,aACE,QAAA,KACA,YAAA,OACA,IAAA,IAAA,cAGF,CANA,aAMA,MACE,cAAA,EACA,YAAA,IAGF,CAAA,eACE,WAAA,QACA,MAAA,QACA,aAAA",
+  "names": []
+}

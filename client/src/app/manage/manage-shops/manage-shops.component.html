@@ -1,0 +1,183 @@
+<div class="card">
+  <h2>Shops</h2>
+  <p class="text-sm">Create, update, and soft-delete shops. Not linked from the main app.</p>
+
+  <div class="create-section mt-lg">
+    <h3>Create shop</h3>
+    <div class="row">
+      <div>
+        <label for="create-name">Name <span class="required">*</span></label>
+        <input
+          id="create-name"
+          type="text"
+          [(ngModel)]="createName"
+          placeholder="Shop name"
+          [class.error]="createErrors().name"
+        />
+        @if (createErrors().name) {
+          <div class="error-text" role="alert">{{ createErrors().name }}</div>
+        }
+      </div>
+      <div>
+        <label for="create-phone">Phone <span class="required">*</span></label>
+        <input
+          id="create-phone"
+          type="text"
+          [(ngModel)]="createPhone"
+          placeholder="(555) 555-5555"
+          [class.error]="createErrors().phone"
+        />
+        @if (createErrors().phone) {
+          <div class="error-text" role="alert">{{ createErrors().phone }}</div>
+        }
+      </div>
+      <div>
+        <label for="create-hours">Hours <span class="required">*</span></label>
+        <input
+          id="create-hours"
+          type="text"
+          [(ngModel)]="createHours"
+          placeholder="Mon–Fri 8am–5pm"
+          [class.error]="createErrors().hours"
+        />
+        @if (createErrors().hours) {
+          <div class="error-text" role="alert">{{ createErrors().hours }}</div>
+        }
+      </div>
+      <div>
+        <label for="create-primary-contact">Primary contact (optional)</label>
+        <input
+          id="create-primary-contact"
+          type="text"
+          [(ngModel)]="createPrimaryContact"
+          placeholder="Service Manager"
+        />
+      </div>
+      <div>
+        <label for="create-password">Password <span class="required">*</span></label>
+        <input
+          id="create-password"
+          type="password"
+          [(ngModel)]="createPassword"
+          placeholder="Shop login password"
+          [class.error]="createErrors().password"
+        />
+        @if (createErrors().password) {
+          <div class="error-text" role="alert">{{ createErrors().password }}</div>
+        }
+      </div>
+      <div>
+        <label for="create-shop-key">Shop ID (optional)</label>
+        <input
+          id="create-shop-key"
+          type="text"
+          [(ngModel)]="createShopKey"
+          placeholder="Leave blank to auto-generate"
+        />
+      </div>
+    </div>
+    <div class="row mt-md">
+      <div class="checkbox-row">
+        <input
+          type="checkbox"
+          id="create-requires-verification"
+          [(ngModel)]="createRequiresVerification"
+        />
+        <label for="create-requires-verification">Require verification (phone last 4) for status</label>
+      </div>
+    </div>
+    <div class="row mt-md">
+      <button
+        class="btn btn-primary"
+        (click)="create()"
+        [disabled]="creating()"
+        aria-label="Create shop"
+      >
+        @if (creating()) { Creating... } @else { Create shop }
+      </button>
+    </div>
+    @if (message()) {
+      <div class="message mt-md" [class.success]="!message().startsWith('Error')">{{ message() }}</div>
+    }
+  </div>
+
+  <hr />
+
+  <div class="list-section">
+    <div class="list-header">
+      <h3>All shops</h3>
+      @if (filteredShops().length > 0 || searchQuery) {
+        <input
+          type="search"
+          [(ngModel)]="searchQuery"
+          placeholder="Search by name, shop ID, phone"
+          class="search-input"
+          aria-label="Search shops"
+        />
+      }
+    </div>
+
+    @if (loading()) {
+      <div class="text-sm">Loading shops...</div>
+    }
+    @if (error()) {
+      <div class="text-sm error-message">
+        {{ error() }}
+        <button class="btn btn-secondary mt-sm" (click)="reload()" aria-label="Retry">Retry</button>
+      </div>
+    }
+    @if (!loading() && !error() && filteredShops().length === 0) {
+      <div class="text-sm">
+        @if (searchQuery) {
+          No shops match "{{ searchQuery }}".
+        } @else {
+          No shops yet. Create one above.
+        }
+      </div>
+    }
+
+    @if (filteredShops().length > 0) {
+      <div class="shops-list">
+        @for (s of filteredShops(); track s.id) {
+          <div class="shop-card" [class.deleted]="!!s.deletedAt">
+            <div class="shop-main">
+              <div class="shop-name">{{ s.name }}</div>
+              <code class="shop-key">{{ s.shopKey }}</code>
+              @if (s.deletedAt) {
+                <span class="badge badge-inactive">Deleted</span>
+              }
+            </div>
+            <div class="shop-meta text-xs">
+              {{ s.phone }} · {{ s.hours }}
+              @if (s.primaryContactName) {
+                · {{ s.primaryContactName }}
+              }
+            </div>
+            <div class="shop-actions">
+              @if (!s.deletedAt) {
+                <a [routerLink]="['/manage', 'shops', s.id]" class="btn btn-secondary btn-sm">Edit</a>
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm btn-danger"
+                  (click)="softDelete(s)"
+                  aria-label="Soft-delete {{ s.name }}"
+                >
+                  Soft delete
+                </button>
+              } @else {
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  (click)="restore(s)"
+                  aria-label="Restore {{ s.name }}"
+                >
+                  Restore
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

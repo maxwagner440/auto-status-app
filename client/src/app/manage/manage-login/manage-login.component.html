@@ -1,0 +1,53 @@
+<div class="page-container">
+  <div class="card login-card">
+    <h2>Shop Management</h2>
+    <p class="text-sm mb-lg">Sign in with your username and password to access the shop management portal.</p>
+
+    <div class="login-form">
+      <div>
+        <label for="manage-username">Username</label>
+        <input
+          id="manage-username"
+          type="text"
+          [(ngModel)]="username"
+          placeholder="Username"
+          (keyup.enter)="login()"
+          [disabled]="loading()"
+          autofocus
+          autocomplete="username"
+        />
+      </div>
+      <div>
+        <label for="manage-password">Password</label>
+        <input
+          id="manage-password"
+          type="password"
+          [(ngModel)]="password"
+          placeholder="Password"
+          (keyup.enter)="login()"
+          [disabled]="loading()"
+          autocomplete="current-password"
+        />
+      </div>
+    </div>
+
+    <div class="login-actions">
+      <button
+        class="btn btn-primary"
+        (click)="login()"
+        [disabled]="loading() || !username.trim() || !password"
+        aria-label="Login to shop management"
+      >
+        @if (loading()) {
+          Logging in...
+        } @else {
+          Login
+        }
+      </button>
+    </div>
+
+    @if (message()) {
+      <div class="message error">{{ message() }}</div>
+    }
+  </div>
+</div>

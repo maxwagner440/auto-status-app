@@ -1,0 +1,81 @@
+<div class="card">
+  @if (loading()) {
+    <div class="text-sm">Loading...</div>
+  }
+  @if (error()) {
+    <div class="text-sm error-message">
+      {{ error() }}
+      <a routerLink="/manage" class="btn btn-secondary mt-sm">Back to shops</a>
+    </div>
+  }
+  @if (shop(); as s) {
+    <h2>Edit shop</h2>
+    <p class="text-sm">
+      <code>{{ s.shopKey }}</code>
+      @if (s.deletedAt) {
+        <span class="badge badge-inactive">Deleted</span>
+      }
+    </p>
+
+    @if (s.deletedAt) {
+      <div class="message mt-lg">
+        This shop is soft-deleted. Restore it to edit.
+      </div>
+      <div class="mt-lg">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="restore()"
+          aria-label="Restore shop"
+        >
+          Restore shop
+        </button>
+        <a routerLink="/manage" class="btn btn-secondary">Back to shops</a>
+      </div>
+    } @else {
+      <div class="row mt-lg">
+        <div>
+          <label for="edit-name">Name</label>
+          <input id="edit-name" type="text" [(ngModel)]="name" />
+        </div>
+        <div>
+          <label for="edit-phone">Phone</label>
+          <input id="edit-phone" type="text" [(ngModel)]="phone" />
+        </div>
+        <div>
+          <label for="edit-hours">Hours</label>
+          <input id="edit-hours" type="text" [(ngModel)]="hours" />
+        </div>
+        <div>
+          <label for="edit-primary-contact">Primary contact (optional)</label>
+          <input id="edit-primary-contact" type="text" [(ngModel)]="primaryContactName" />
+        </div>
+      </div>
+      <div class="row mt-md">
+        <div class="checkbox-row">
+          <input
+            type="checkbox"
+            id="edit-requires-verification"
+            [(ngModel)]="requiresVerification"
+          />
+          <label for="edit-requires-verification">Require verification for status</label>
+        </div>
+      </div>
+      <div class="row mt-lg">
+        <button
+          class="btn btn-primary"
+          (click)="save()"
+          [disabled]="saving()"
+          aria-label="Save"
+        >
+          @if (saving()) { Saving... } @else { Save }
+        </button>
+        <a routerLink="/manage" class="btn btn-secondary">Back to shops</a>
+      </div>
+    }
+
+    @if (message()) {
+      <div class="message mt-md" [class.success]="!message().startsWith('Error')">{{ message() }}</div>
+    }
+  }
+</div>

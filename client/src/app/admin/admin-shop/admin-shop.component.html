@@ -1,0 +1,30 @@
+<div class="card">
+  <h2>Shop Settings</h2>
+  <p class="text-sm">Shown on every customer status page.</p>
+  <div class="row mt-md">
+    <div>
+      <label for="shop-name">Shop name</label>
+      <input id="shop-name" type="text" [(ngModel)]="model().name" aria-label="Shop name" />
+    </div>
+    <div>
+      <label for="shop-phone">Phone</label>
+      <input id="shop-phone" type="tel" [(ngModel)]="model().phone" aria-label="Shop phone number" />
+    </div>
+    <div>
+      <label for="shop-hours">Hours</label>
+      <input id="shop-hours" type="text" [(ngModel)]="model().hours" aria-label="Shop hours" />
+    </div>
+    <div>
+      <label for="shop-contact">Primary contact (optional)</label>
+      <input id="shop-contact" type="text" [(ngModel)]="model().primaryContactName" aria-label="Primary contact name" />
+    </div>
+  </div>
+  <div class="row mt-md">
+    <button class="btn btn-primary" (click)="save()" aria-label="Save shop settings">Save</button>
+    <button class="btn btn-secondary" (click)="reload()" aria-label="Reload shop settings">Reload</button>
+  </div>
+  @if (message()) {
+    <p class="text-sm mt-md">{{ message() }}</p>
+  }
+</div>
+

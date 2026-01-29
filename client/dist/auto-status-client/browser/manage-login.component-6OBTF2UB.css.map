@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/manage/manage-login/manage-login.component.scss"],
+  "sourcesContent": [".login-card {\n  max-width: 400px;\n  margin: 0 auto;\n  margin-top: var(--spacing-3xl);\n}\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-lg);\n  margin-bottom: var(--spacing-lg);\n}\n\n.login-actions {\n  margin-top: var(--spacing-lg);\n}\n\n.message.error {\n  background: #fee2e2;\n  color: #991b1b;\n  border: 1px solid #ef4444;\n  margin-top: var(--spacing-lg);\n  padding: var(--spacing-md);\n  border-radius: var(--radius-md);\n}\n"],
+  "mappings": "AAAA,CAAA,WACE,UAAA,MADF,OAEE,EAAA,KACA,WAAA,IAAA,eAGF,CAAA,WACE,QAAA,KACA,eAAA,OACA,IAAA,IAAA,cACA,cAAA,IAAA,cAGF,CAAA,cACE,WAAA,IAAA,cAGF,CAAA,OAAA,CAAA,MACE,WAAA,QACA,MAAA,QACA,OAAA,IAAA,MAAA,QACA,WAAA,IAAA,cACA,QAAA,IAAA,cACA,cAAA,IAAA",
+  "names": []
+}

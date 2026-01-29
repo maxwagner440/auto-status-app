@@ -1,0 +1,42 @@
+<div class="page-container landing-container">
+  <div class="card landing-card">
+    <h1>Auto Status</h1>
+    <p class="text-sm mb-lg">Enter your Shop ID to access your workspace.</p>
+
+    <div class="landing-form">
+      <div>
+        <label for="shop-id">Shop ID</label>
+        <input 
+          id="shop-id"
+          type="text"
+          [(ngModel)]="shopKey" 
+          placeholder="your-shop-id"
+          (keyup.enter)="continue()"
+          (input)="error.set('')"
+          class="shop-id-input"
+        />
+        <div class="helper-text">
+          Your Shop ID is your unique workspace identifier. Use lowercase letters, numbers, and hyphens only.
+        </div>
+      </div>
+    </div>
+
+    <div class="landing-actions">
+      <button 
+        class="btn btn-primary" 
+        (click)="continue()"
+        [disabled]="!shopKey.trim()"
+        aria-label="Continue to login"
+      >
+        Continue
+      </button>
+    </div>
+
+    @if (error()) {
+      <div class="message error">
+        {{ error() }}
+      </div>
+    }
+  </div>
+</div>
+

@@ -1,0 +1,100 @@
+<!-- 
+1 We need to convert this app into a simple multi-tenant architecture.
+
+Backend is NestJS + TypeORM + Postgres. Implement:
+1) Add ShopEntity.shopKey (unique, human typeable string like "acme" or "acme-auto") and a passwordHash field.
+2) Jobs must belong to a Shop (ManyToOne Job -> Shop). Add shopId foreign key and ensure queries are scoped.
+3) Update DB entities accordingly:
+   - ShopEntity: id (uuid), shopKey (unique), name, phone, hours, primaryContactName, passwordHash, createdAt, updatedAt
+   - JobEntity: id (uuid), token (unique), customerContact, vehicleLabel, stateKey, flagKey, closedAt, createdAt, updatedAt, shopId + relation
+4) Update controllers so all admin operations are scoped by shopKey:
+   - GET /api/admin/:shopKey/shop
+   - PUT /api/admin/:shopKey/shop
+   - GET /api/admin/:shopKey/jobs
+   - POST /api/admin/:shopKey/jobs
+   - GET /api/admin/:shopKey/jobs/:id
+   - PUT /api/admin/:shopKey/jobs/:id
+5) Update public status endpoint to include shopKey:
+   - GET /api/public/:shopKey/status/:token
+   It must only return a job if it belongs to that shop.
+6) Implement a lightweight seed behavior: if a shop doesn't exist, do NOT auto-create it via public endpoints. Only create via an admin bootstrap route (we can add later). For now, create one shop from env on startup (MVP).
+
+Use TypeORM synchronize=true for now (no migrations). Return updated files and explanations. -->
+
+
+
+<!-- 
+2 Implement per-shop admin authentication.
+
+Requirements:
+- Each shop has its own login using shopKey + password.
+- Use JWT (access token only for MVP, no refresh token yet).
+- Add endpoints:
+  POST /api/auth/:shopKey/login  { password }
+  -> returns { accessToken }
+- Store JWT secret in env JWT_SECRET.
+- Protect all /api/admin/:shopKey/* routes with an AuthGuard that validates JWT and ensures the token shopKey matches the route shopKey.
+- Use bcrypt to hash passwords. Add dependencies bcrypt + @nestjs/jwt + passport-jwt + @nestjs/passport.
+- On startup, bootstrap a single shop from env:
+  DEFAULT_SHOP_KEY and DEFAULT_SHOP_PASSWORD
+  If shop doesn’t exist, create it with hashed password and basic default profile values.
+- Do not allow public routes to reveal existence of shops (return 404 on unknown shopKey).
+
+Implement:
+- AuthModule, JwtStrategy, AuthGuard
+- Update AppModule imports accordingly
+- Update controllers to use @UseGuards on admin controllers
+Return files changed and how to test with curl. -->
+
+
+<!-- 
+3 Update the Angular client to support multi-tenant routing with shopKey in the URL.
+
+Requirements:
+- All routes should be nested under /:shopKey/...
+  - /:shopKey/login
+  - /:shopKey/admin
+  - /:shopKey/admin/jobs
+  - /:shopKey/status/:token (customer page)
+- Add a Login page that asks for password only (shopKey comes from route param).
+- On login success, store JWT in localStorage (keyed by shopKey) and add an HttpInterceptor that sends Authorization: Bearer <token> for all /api/admin/:shopKey/* calls.
+- Add an AuthGuard for admin pages: if no token for that shopKey, redirect to /:shopKey/login.
+- Update all API calls to use new endpoints:
+  - Admin: /api/admin/:shopKey/...
+  - Public: /api/public/:shopKey/status/:token
+- Keep customer pages public and ensure admin pages are not accessible without token.
+
+Return updated routing/module files and a summary of changes. -->
+<!-- 
+
+
+
+4 Add a simple landing page at / that prompts the user for their Shop ID (shopKey), similar to AWS account entry.
+
+Behavior:
+- Input: "Shop ID"
+- Button: Continue
+- On submit, navigate to /<shopKey>/login
+- Add basic validation: lowercase letters, numbers, hyphen only.
+- Add friendly helper text explaining this is their shop workspace.
+
+Also update the nav/header to show the current shopKey when inside a tenant.
+
+
+
+
+
+
+5 Add optional customer verification to status lookup, but keep it disabled by default.
+
+Backend:
+- Add JobEntity.customerPhoneLast4 (nullable) OR derive from customerContact when it’s a phone number.
+- Update public status endpoint to accept optional query param:
+  GET /api/public/:shopKey/status/:token?verify=1234
+- If the shop has verification enabled (ShopEntity.requiresVerification boolean), then require verify param to match job customer phone last4 or return 401.
+- Default requiresVerification = false.
+
+Frontend:
+- If API returns 401 with a message like "verification_required", show a small form asking for last 4 digits and re-request. -->
+
+

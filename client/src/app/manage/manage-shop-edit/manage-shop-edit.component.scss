@@ -1,0 +1,33 @@
+.error-message {
+  color: var(--color-text-muted);
+}
+
+.message {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  background: var(--color-background-subtle);
+  color: var(--color-text);
+}
+
+.message.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.checkbox-row label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+.badge-inactive {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #ef4444;
+}
